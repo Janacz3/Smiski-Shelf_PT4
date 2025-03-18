@@ -66,6 +66,14 @@ app.post('/upload-story', upload.array('media', 5), async (req, res) => {
     }
 });
 
+app.use("/pages", express.static(path.join(__dirname, "pages"), {
+    setHeaders: (res, path) => {
+        if (path.endsWith(".css")) {
+            res.setHeader("Content-Type", "text/css");
+        }
+    }
+}));
+
 
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
