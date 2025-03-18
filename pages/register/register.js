@@ -6,10 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
+        const username = document.getElementById("username").value; // ✅ Added username
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
-        if (!email || !password) {
+        if (!username || !email || !password) {
             message.textContent = "All fields are required!";
             return;
         }
@@ -18,11 +19,17 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch("http://localhost:3000/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ username, email, password }) // ✅ Include username
             });
 
             const data = await response.json();
             message.textContent = data.message;
+
+            if (response.ok) {
+                setTimeout(() => {
+                    window.location.href = "../login/login.html"; // ✅ Redirect after successful registration
+                }, 2000);
+            }
 
         } catch (error) {
             message.textContent = "Error registering!";

@@ -29,8 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
-
 // Get the button, modal, and overlay elements
 const createStoryButton = document.getElementById('createStoryButton');
 const createStoryModal = document.getElementById('createStoryModal');
