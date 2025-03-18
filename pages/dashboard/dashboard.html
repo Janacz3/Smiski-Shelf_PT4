@@ -6,54 +6,73 @@
     <link rel="icon" type="image/png" href="smiskilogo.png"> <!-- For PNG -->
     <title>The Smiski Shelf</title>
     <link rel="stylesheet" href="/dashboard/dashboard.css">
+    <link rel="stylesheet" href="/dashboard/components/styles/dashboard-navbar.css">
+    <link rel="stylesheet" href="/dashboard/components/styles/dashboard-post-create.css">
     <script src="/dashboard/script.js" defer></script>
+    <script src="/dashboard/components/dashboard-navbar.js" defer></script>
+    <script src="/dashboard/components/dashboard-post-create.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.9.8/dist/ffmpeg.min.js"></script>
 </head>
 <body>
-
-   <!-- Header -->
-    <header class="header">
-        <div class="logo-container">
-            <img src="logo.png" alt="Logo" class="logo-image">
-            <h1 class="logo-text">The Smiski Shelf</h1>
-        </div>
-        <nav class="nav">
-            <div class="search-container">
-                <input type="text" id="searchInput" class="search-bar" placeholder="Search...">
-                <button id="searchButton" class="search-button">🔍</button>
+    <nav class="navbar">
+        <div class="logosearch">
+            <img src="/logo.png" class="dashboard-logo" alt="Logo">
+            <div class="search-bar-container">
+                <input type="text" placeholder="Search" class="search-bar">
+                <i class="fas fa-search search-icon"></i>
             </div>
-            <div class="user-info">
-                <span class="greeting">Hello, User!</span>
-                <img src="user-profile.png" alt="User" class="user-image">
-            </div>
-        </nav>
-    </header>
-
-    <!-- Banner -->
-    <div class="banner">
-        <div class="text">
-            <h1>The Smiski Shelf</h1>
-            <p>Where Every Smiski Has a Story</p>
-            <button id="createStoryButton">Create your Smiski Story</button>
         </div>
-        <div class="banner-pics">
-            <img src="banner-pic-1.png" alt="Smiski" class="image" />
-            <img src="banner-pic-2.png" alt="Smiski" class="image" />
-            <img src="banner-pic.png" alt="Smiski" class="image" />
+        <div class="main-nav">
+            <i class="fas fa-home icon"></i>
+            <i class="fas fa-video icon"></i>
+            <i class="fas fa-smile icon"></i>
+        </div>
+        <div class="profile-container">
+            <div class="profile-pic" id="profilePic"></div>
+            <div class="dropdown-menu hidden" id="dropdownMenu">
+                <div class="dropdown-item" id="username">👤 User</div>
+                <div class="dropdown-item logout" id="logoutBtn">🚪 Logout</div>
+            </div>
+        </div>        
+    </nav>
+
+    <div class="post-input">
+        <div>
+            <div class="flex-centered-container">
+                <div class="user-circle">
+                    <img src="images/usericon.png" alt="user">
+                </div>
+                <div class="post-modal-trigger">
+                    <input 
+                        type="text" 
+                        class="post-input-field"
+                        placeholder="What's on your mind?"
+                        readonly
+                    >
+                </div>
+            </div>
+            <div class="post-options">
+                <button class="option-btn" id="liveVideoBtn">📺 Live video</button>
+                <button class="option-btn" id="photoVideoBtn">📷 Photo/video</button>
+                <button class="option-btn" id="feelingActivityBtn">😊 Feeling/activity</button>
+            </div>
         </div>
     </div>
 
-        <!-- Divider for navigation -->
-    <div class="nav-divider">
-        <div class="nav-links">
-            <a href="#smiskistories-section">Smiski Stories</a>
-            <a href="#smiskimoments">Smiski Moments</a>
-            <a href="#chat-section">Smiski Chats</a>
-            <a href="#footersection">About Smiski Shelf</a>
+    <!-- Modal -->
+    <div id="postModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <h2>Create a Post</h2>
+            <textarea placeholder="What's on your mind?" class="modal-textarea"></textarea>
+            <button class="post-button">Post</button>
         </div>
     </div>
+    
+
+
 
     <!-- Smiski Stories Section -->
     <div class="smiskistories-section">

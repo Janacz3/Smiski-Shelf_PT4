@@ -241,6 +241,8 @@ button img {
     display: flex;
     flex-wrap: wrap; /* Allows stories to wrap to the next row */
     gap: 15px; /* Spacing between stories */
+    width: 700px;
+
 }
 
 /* Smiski Stories heading container */
