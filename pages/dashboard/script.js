@@ -386,6 +386,19 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('createStoryButtonPlus').addEventListener('click', openCreateStoryModal);
 });
 
+
+
+// Function to reset modal inputs
+function resettingModalInputs() {
+    document.getElementById('storyTitle').value = '';
+    document.getElementById('storyDescription').value = ''; // Reset the storyDescription field
+    document.getElementById('mediaInput').value = '';
+    document.getElementById('startTimeInput').value = '';
+    document.getElementById('endTimeInput').value = '';
+    document.getElementById('cropImage').style.display = 'none';
+    document.getElementById('editorSection').style.display = 'none';
+}
+
 // Close Create Story Modal
 function closeCreateStoryModal() {
     resizeFactor = 1;  // Reset to the default size factor
@@ -448,6 +461,31 @@ async function addStories() {
     if (files.length === 0) {
         alert('Please select at least one image or video.');
         return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", storyTitle);
+    formData.append("description", storyDescription);
+    files.forEach(file => formData.append("media", file));
+
+    try {
+        const response = await fetch('http://localhost:3000/upload-story', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to upload story");
+        }
+
+        const result = await response.json();
+        console.log("Story uploaded successfully:", result);
+        alert("Story uploaded successfully!");
+
+        // Optionally refresh the page or update the UI
+    } catch (error) {
+        console.error("Error uploading story:", error);
+        alert("Error uploading story. Please try again.");
     }
 
     // Ensure cropper is initialized before use
@@ -1241,6 +1279,36 @@ function updateReactionCounts(storyIndex) {
     document.getElementById('hahaCount').textContent = counts.haha;
     document.getElementById('sadCount').textContent = counts.sad;
     document.getElementById('angryCount').textContent = counts.angry;
+}
+
+
+document.getElementById('audioInput').addEventListener('change', handleAudioUpload);
+
+function handleAudioUpload(event) {
+    const audioInput = event.target;
+    const audioPreview = document.getElementById('audioPreview');
+
+    // Check if a file is selected
+    if (audioInput.files && audioInput.files[0]) {
+        const file = audioInput.files[0];
+
+        // Check if the file is an audio file (optional additional validation)
+        if (file.type.startsWith('audio/')) {
+            // Create a URL for the selected file
+            const audioUrl = URL.createObjectURL(file);
+
+            // Set the audio source to the file URL
+            audioPreview.src = audioUrl;
+            
+            // Show the audio player
+            audioPreview.style.display = 'block';
+        } else {
+            alert('Please upload a valid audio file (mp3, wav, etc.).');
+        }
+    } else {
+        // Hide the audio player if no file is selected
+        audioPreview.style.display = 'none';
+    }
 }
 
 document.getElementById('audioInput').addEventListener('change', handleAudioUpload);
