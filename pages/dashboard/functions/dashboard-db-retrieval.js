@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "/login.html";
         } else {
             console.log("Dashboard Loaded:", data);
-            document.getElementById("welcomeMessage").innerText = `Welcome, ${data.user.email}`;
         }
     })
     .catch(error => console.error("Error:", error));
@@ -34,10 +33,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const username = localStorage.getItem("username"); // Get username from storage
 
     if (username) {
-        greetingSpan.textContent = `Hello, ${username}!`; // ✅ Update greeting text
         dropdownUsername.textContent = `👤 ${username}`; // ✅ Update dropdown text
     } else {
-        greetingSpan.textContent = "Hello, User!";
         dropdownUsername.textContent = "👤 User";
     }
 });

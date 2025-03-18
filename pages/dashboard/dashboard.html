@@ -11,45 +11,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@ffmpeg/ffmpeg@0.9.8/dist/ffmpeg.min.js"></script>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-
-
     <script src="./components/navbar.js" defer></script>
-
-    <!-- Banner -->
-    <div class="banner">
-        <div class="text">
-            <h1>The Smiski Shelf</h1>
-            <p>Where Every Smiski Has a Story</p>
-            <button id="createStoryButton">Create your Smiski Story</button>
-        </div>
-        <div class="banner-pics">
-            <img src="banner-pic-1.png" alt="Smiski" class="image" />
-            <img src="banner-pic-2.png" alt="Smiski" class="image" />
-            <img src="banner-pic.png" alt="Smiski" class="image" />
-        </div>
-    </div>
-
-        <!-- Divider for navigation -->
-    <div class="nav-divider">
-        <div class="nav-links">
-            <a href="#smiskistories-section">Smiski Stories</a>
-            <a href="#smiskimoments">Smiski Moments</a>
-            <a href="#chat-section">Smiski Chats</a>
-            <a href="#footersection">About Smiski Shelf</a>
-        </div>
+    
+    <div id="postContainer">
+        <script src="./components/post-create.js" defer></script>
     </div>
 
     <!-- Smiski Stories Section -->
     <div class="smiskistories-section">
     <div class="stories-container" id="storiesContainer">
-        <div class="stories-header">
-            <h2>Smiski Stories</h2>
-        </div>
-        <div class="story add-story" id="createStoryButtonPlus">
+        <div class="story add-story" id="createStoryButton">
             +
         </div>
     </div>
