@@ -1,5 +1,5 @@
 document.getElementById("login-form").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevent form from refreshing the page
+    event.preventDefault(); // Prevent form refresh
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -16,6 +16,7 @@ document.getElementById("login-form").addEventListener("submit", async function 
         const data = await response.json();
 
         if (response.ok) {
+            localStorage.setItem("token", data.token); // ✅ Store token
             alert(data.message); // Show success message
             window.location.href = "/dashboard/dashboard.html"; // Redirect to dashboard
         } else {
