@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const head = document.head;
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "/pages/dashboard/components/navbar.css"; // Ensure this path is correct
+    link.href = "/pages/dashboard/components/styles/navbar.css"; // Ensure this path is correct
     head.appendChild(link);
 
     // Create a div element to hold the navbar
@@ -64,8 +64,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // Handle Logout
     logoutBtn.addEventListener("click", () => {
         alert("Logging out...");
-        localStorage.removeItem("username"); // ✅ Clear stored username
-        localStorage.removeItem("token"); // ✅ Clear stored token
-        window.location.href = "/login.html"; // ✅ Redirect to login page
+    
+        // Clear local storage (username and token)
+        localStorage.removeItem("username");
+        localStorage.removeItem("token");
+    
+        // Optionally, make an API call to the server to invalidate the token/session (if necessary)
+        fetch("http://localhost:3000/logout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+        })
+        .catch(err => {
+            console.error("Logout Error:", err);
+        });
+        
+    
+        // Redirect to the login page
+        window.location.href = "/login"; // Correct the URL to match the backend route
     });
+    
 });

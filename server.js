@@ -83,10 +83,22 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Authentication Routes
 app.post('/register', registerUser);
 app.post('/login', loginUser);
+app.post('/logout', authenticateToken, (req, res) => {
+    console.log("Logout route accessed");
+    res.json({ message: "You have been logged out successfully!" });
+});
+
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'register', 'register.html'));
 });
+
+// Serve login.html
+app.get('/login', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'login','login.html'));
+});
+
 
 // Protected Dashboard Route
 app.get('/dashboard', authenticateToken, (req, res) => {
