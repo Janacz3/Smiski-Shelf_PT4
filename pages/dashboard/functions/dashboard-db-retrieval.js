@@ -29,12 +29,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const greetingSpan = document.querySelector(".greeting");
-    const username = localStorage.getItem("username");
+    const greetingSpan = document.querySelector(".greeting"); // For the greeting
+    const dropdownUsername = document.getElementById("user-name"); // For dropdown
+    const username = localStorage.getItem("username"); // Get username from storage
 
     if (username) {
-        greetingSpan.textContent = `Hello, ${username}!`; // ✅ Display username
+        greetingSpan.textContent = `Hello, ${username}!`; // ✅ Update greeting text
+        dropdownUsername.textContent = `👤 ${username}`; // ✅ Update dropdown text
     } else {
         greetingSpan.textContent = "Hello, User!";
+        dropdownUsername.textContent = "👤 User";
     }
 });
