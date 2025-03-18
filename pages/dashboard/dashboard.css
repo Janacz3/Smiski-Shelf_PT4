@@ -1,3 +1,18 @@
+.post-create-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Centers items vertically (if needed) */
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: fit-content; /* Adjusts width to content */
+    margin: 0 auto; /* Centers the whole container */
+    margin-top: 20px;
+}
+
 /* General Styling */
 body {
     font-family: Arial, sans-serif;
