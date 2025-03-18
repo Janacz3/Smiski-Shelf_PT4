@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, '..', 'Goguanco-Pascual-Zaldivar_IPT
 
 // Serve index.html explicitly
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'Goguanco-Pascual-Zaldivar_IPTL_PT1', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'Goguanco-Pascual-Zaldivar_IPTL_PT1', 'dashboard.html'));
 });
 
 // Start the server
