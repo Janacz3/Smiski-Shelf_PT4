@@ -17,7 +17,8 @@ document.getElementById("login-form").addEventListener("submit", async function 
 
         if (response.ok) {
             localStorage.setItem("token", data.token); // ✅ Store token
-            alert(data.message); // Show success message
+            localStorage.setItem("username", data.username); // ✅ Store username
+            alert(data.message);
             window.location.href = "/dashboard/dashboard.html"; // Redirect to dashboard
         } else {
             alert(data.message); // Show error message
