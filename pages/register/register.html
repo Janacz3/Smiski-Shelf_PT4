@@ -4,23 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="../register/register.css">
 </head>
 <body>
 
-    <div class="container">
-        <h2>Register</h2>
-        <form id="register-form">
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="password" id="password" placeholder="Password" required>
-            <button type="submit">Register</button>
-        </form>
+    <h1>User Registration</h1>
+    <form id="register-form">
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Register</button>
+    </form>
 
-        <p>OR</p>
+    <p id="message"></p>
 
-        <button id="google-login-btn">Sign in with Google</button>
-    </div>
+    <!-- ✅ Always Visible Login Button -->
+    <button id="go-to-login">Go to Login</button>
 
-    <script src="register.js"></script>
+    <script src="../register/register.js"></script>
 </body>
 </html>

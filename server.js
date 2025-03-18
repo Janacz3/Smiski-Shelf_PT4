@@ -1,14 +1,14 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
-const multer = require('multer');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt'); // For password hashing
 
 const app = express();
 const port = 3000;
 
-// Enable CORS (Cross-Origin Resource Sharing)
+// Enable CORS
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -19,68 +19,82 @@ mongoose.connect('mongodb://127.0.0.1:27017/smiskiDB', {
 }).then(() => console.log("Connected to MongoDB"))
   .catch(err => console.error("MongoDB Connection Error:", err));
 
-// Define a Mongoose schema
-const storySchema = new mongoose.Schema({
-    title: String,
-    description: String,
-    media: [String],  // Store filenames only
-    createdAt: { type: Date, default: Date.now }
+// Define User Schema
+const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
 });
 
-const Story = mongoose.model('Story', storySchema);
+const User = mongoose.model('User', userSchema);
 
-// Set up multer for file uploads
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/');  // Store files in 'uploads/' directory
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);  // Unique filename
-    }
-});
-
-const upload = multer({ storage });
-
-// Serve static files (uploads)
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-// Serve static files from 'pages' and 'public' folders
+// Serve static files
 app.use(express.static(path.join(__dirname, 'pages')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve dashboard.html as the default page
+// Serve register.html
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'dashboard', 'dashboard.html'));
+    res.sendFile(path.join(__dirname, 'pages', 'register', 'register.html'));
 });
 
-// Handle story upload
-app.post('/upload-story', upload.array('media', 5), async (req, res) => {
+// Handle User Registration
+app.post('/register', async (req, res) => {
     try {
-        console.log("🔄 Received request to upload story");
-        console.log("📦 Request body:", req.body);
-        console.log("📸 Uploaded files:", req.files);
-
-        if (!req.body.title || !req.body.description || !req.files || req.files.length === 0) {
-            console.error("❌ Missing required fields");
-            return res.status(400).json({ error: "Missing required fields" });
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
         }
 
-        const { title, description } = req.body;
-        const mediaFilenames = req.files.map(file => file.filename);
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "Email already in use" });
+        }
 
-        const newStory = new Story({ title, description, media: mediaFilenames });
-        await newStory.save();
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ email, password: hashedPassword });
+        await newUser.save();
 
-        console.log("✅ Story uploaded successfully:", newStory);
-        res.status(201).json({ message: "Story uploaded successfully", story: newStory });
+        res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-        console.error("🚨 Server error while uploading story:", error);
-        res.status(500).json({ error: "Failed to upload story", details: error.message });
+        console.error("Registration Error:", error);
+        res.status(500).json({ message: "Server error" });
     }
 });
 
+// Handle User Login
+app.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ message: "Email and password are required" });
+        }
 
-// Start the server
+        // Find user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        // Compare hashed password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        res.status(200).json({ message: "Login successful" });
+
+    } catch (error) {
+        console.error("Login Error:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+// Serve Dashboard Page
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname, 'pages', 'dashboard', 'dashboard.html'));
+});
+
+
+// Start Server
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
 });
