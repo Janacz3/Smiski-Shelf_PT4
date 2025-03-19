@@ -153,3 +153,22 @@
     width: 20px;
     height: 20px;
 }
+
+.media-preview-container {
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    width: 100%; /* Ensure it spans full width */
+    text-align: center;
+}
+
+
+.media-preview {
+    max-width: 300px;
+    max-height: 300px;
+    border-radius: 5px;
+    object-fit: cover;
+}

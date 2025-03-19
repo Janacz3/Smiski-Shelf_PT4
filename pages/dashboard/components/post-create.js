@@ -41,16 +41,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
                 <textarea id="postContent" placeholder="What's on your mind, ${storedUsername}?" class="post-modal-textarea"></textarea>
 
-                <!-- File Upload -->
-                <input type="file" id="fileInput" multiple>
-
                 <!-- Post Options -->
                 <div class="post-modal-options">
                     <div class="post-modal-option"><img src="../../../live.png" alt="Live video"> Live video</div>
-                    <div class="post-modal-option"><img src="../../../photos.png" alt="Photo/video"> Photo/video</div>
+                    <div class="post-modal-option" id="photoVideoOption">
+                        <img src="../../../photos.png" alt="Photo/video"> Photo/video
+                    </div>
+                    <input type="file" id="fileInput" multiple style="display: none;">
                     <div class="post-modal-option"><img src="../../../feeling.png" alt="Feeling/activity"> Feeling/activity</div>
                 </div>
                 
+                <!-- Media Preview Box -->
+                <div id="mediaPreviewContainer" class="media-preview-container"></div>
+
                 <button id="postButton" class="post-modal-button">Post</button>
             </div>
         </div>
@@ -100,12 +103,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
         const formData = new FormData();
-        formData.append("text", text);  // ✅ Changed from "content" to "text"
+        formData.append("text", text);
         for (let i = 0; i < files.length; i++) {
             formData.append("media", files[i]);
         }
     
-        // Retrieve token from localStorage
         const token = localStorage.getItem("token");
         if (!token) {
             alert("You must be logged in to post.");
@@ -117,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 body: formData,
                 headers: {
-                    "Authorization": `Bearer ${token}` // ✅ No manual Content-Type (FormData handles it)
+                    "Authorization": `Bearer ${token}`
                 }
             });
     
@@ -126,7 +128,12 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 alert("✅ Post created successfully!");
                 displayPost(data.post);
-                postModal.style.display = "none";
+                
+                // Clear input fields and close modal
+                document.getElementById("postContent").value = ""; // Clear text input
+                fileInput.value = ""; // Clear file input
+                document.getElementById("mediaPreviewContainer").innerHTML = ""; // Clear media preview
+                postModal.style.display = "none"; // Hide modal
             } else {
                 alert("❌ Failed to create post: " + data.error);
             }
@@ -135,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Something went wrong. Please try again.");
         }
     });
+    
     
     document.querySelector("#postForm").addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -179,3 +187,85 @@ document.addEventListener("DOMContentLoaded", function () {
     
     console.log("✅ post-create.js loaded!");
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+    const fileInput = document.querySelector("#fileInput");
+    const mediaPreviewContainer = document.querySelector("#mediaPreviewContainer");
+    const postButton = document.querySelector("#postButton");
+    const photoVideoOption = document.querySelector("#photoVideoOption");
+
+    // Open file input when clicking the "Photo/Video" option
+    photoVideoOption.addEventListener("click", () => fileInput.click());
+
+    // Handle file selection and preview
+    fileInput.addEventListener("change", () => {
+        mediaPreviewContainer.innerHTML = ""; // Clear previous previews
+
+        Array.from(fileInput.files).forEach(file => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                let mediaElement;
+                
+                if (file.type.startsWith("image/")) {
+                    // Create an image preview
+                    mediaElement = document.createElement("img");
+                    mediaElement.src = e.target.result;
+                    mediaElement.classList.add("media-preview");
+                } else if (file.type.startsWith("video/")) {
+                    // Create a video preview
+                    mediaElement = document.createElement("video");
+                    mediaElement.src = e.target.result;
+                    mediaElement.classList.add("media-preview");
+                    mediaElement.controls = true; // Add controls for play/pause
+                }
+
+                mediaPreviewContainer.appendChild(mediaElement);
+            };
+            reader.readAsDataURL(file);
+        });
+    });
+
+    // **Clear media preview when clicking post**
+    postButton.addEventListener("click", () => {
+        mediaPreviewContainer.innerHTML = ""; // Remove uploaded media previews
+        fileInput.value = ""; // Reset file input to allow re-uploading
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const smallPostInput = document.getElementById("smallPostInput");
+    const postModal = document.getElementById("postModal");
+    const closeModal = document.querySelector(".close-post-modal");
+    const postButton = document.getElementById("postButton");
+    const postContent = document.getElementById("postContent");
+    const fileInput = document.getElementById("fileInput");
+    const mediaPreviewContainer = document.getElementById("mediaPreviewContainer");
+
+    function clearModal() {
+        postContent.value = "";  // Clear text area
+        fileInput.value = "";  // Reset file input
+        mediaPreviewContainer.innerHTML = "";  // Clear media preview
+        postModal.style.display = "none";  // Hide modal
+    }
+
+    if (smallPostInput && postModal && closeModal) {
+        // Open modal on click
+        smallPostInput.addEventListener("click", function () {
+            postModal.style.display = "flex";
+        });
+
+        // Close modal on click
+        closeModal.addEventListener("click", function () {
+            clearModal();
+        });
+
+        // Close modal if clicked outside of content
+        window.addEventListener("click", function (event) {
+            if (event.target === postModal) {
+                clearModal();
+            }
+        });
+    }
+});
+
+
