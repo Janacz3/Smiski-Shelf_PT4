@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <link rel="stylesheet" href="userprofile.css">
+</head>
+<body>
+
+    <!-- Back Button & Settings Title -->
+    <br>
+    <br>
+
+    <div class="header">
+        <div class="back-button" onclick="goBack()">⬅️</div>
+        <h2 class="settings-title">SETTINGS</h2>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="settings-container">
+        
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="profile-info">
+                <div class="profile-pic"></div>
+                <div class="profile-text">
+                    <p id="display-name">Name</p>
+                    <p id="display-email">Email</p>
+                </div>
+            </div>
+            <ul class="menu">
+                <li><span class="icon">👤</span> My Profile</li>
+                <li><span class="icon">⚙️</span> Privacy</li>
+                <li><span class="icon">🔔</span> Notifications</li>
+                <li><span class="icon">↩️</span> Logout</li>
+            </ul>
+        </div>
+
+        <!-- Profile details -->
+        <div class="profile-section">
+            <!-- Cover Photo Section -->
+            <div class="cover-photo">
+                <div class="profile-circle">
+                    <button class="edit-button" onclick="enableEditing()">✏️ Edit</button>
+                </div>
+                <button class="edit-cover">📸 Edit Cover Photo</button>
+            </div>
+           <!-- Profile Details -->
+            <div class="profile-details">
+                <p><strong>Name</strong> 
+                    <span class="detail" id="profile-name">Name</span>
+                    <input type="text" id="edit-name" class="edit-input" style="display: none;">
+                </p>
+
+                <p><strong>Username</strong> 
+                    <span class="detail" id="profile-username">Username</span>
+                    <input type="text" id="edit-username" class="edit-input" style="display: none;">
+                </p>
+
+                <p><strong>Email account</strong> 
+                    <span class="detail" id="profile-email">Email</span>
+                    <input type="text" id="edit-email" class="edit-input" style="display: none;">
+                </p>
+
+                <p><strong>Bio</strong> 
+                    <span class="detail" id="profile-bio">Your bio here</span>
+                    <textarea id="edit-bio" class="edit-input" style="display: none;"></textarea>
+                </p>
+
+                <button class="save-button" onclick="saveChanges()" style="display: none;">💾 Save</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="userprofile.js"></script>
+</body>
+</html>

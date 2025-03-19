@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="profile-container">
                 <div class="profile-pic" id="profile-pic"></div>
                 <div class="dropdown-menu" id="dropdown-menu">
-                    <div class="dropdown-item" id="user-name">👤 Username</div>
+                    <div class="dropdown-item" id="user-name" style="cursor: pointer;">👤 Username</div>
                     <div class="dropdown-item logout" id="logout-btn">🚪 Logout</div>
                 </div>
             </div>
@@ -48,6 +48,11 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         userName.textContent = "👤 User";
     }
+
+    // Add event listener for redirection (acts like a button)
+    userName.addEventListener("click", function() {
+        window.location.href = "/userprofile/userprofile.html"; // Change this to your target page
+    });
 
     // Toggle Dropdown
     profilePic.addEventListener("click", () => {
