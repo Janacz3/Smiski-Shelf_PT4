@@ -144,6 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     
     
+    
     document.querySelector("#postForm").addEventListener("submit", async (event) => {
         event.preventDefault();
     
@@ -159,31 +160,50 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
-    function displayPost(post) {
-        const postFeed = document.querySelector("#postFeed");
-        if (!postFeed) return;
-    
-        const postElement = document.createElement("div");
-        postElement.classList.add("post");
-    
-        let mediaContent = "";
-        if (post.media && post.media.length > 0) {
-            mediaContent = `<div class="post-media">
-                ${post.media.map(file => `<img src="/uploads/${file}" alt="Post Image">`).join("")}
-            </div>`;
-        }
-    
-        postElement.innerHTML = `
-            <div class="post-header">
-                <img src="../../../no-profile.png" alt="User Profile">
-                <span class="username">${post.username}</span>
+function displayPost(post) {
+    const postFeed = document.querySelector("#postFeed");
+    if (!postFeed) return;
+
+    const postElement = document.createElement("div");
+    postElement.classList.add("post");
+
+    let mediaContent = "";
+    if (post.media && post.media.length > 0) {
+        mediaContent = `
+            <div class="post-media">
+                ${post.media
+                    .map(file => {
+                        const fileExtension = file.split(".").pop().toLowerCase();
+                        if (["mp4", "webm", "ogg"].includes(fileExtension)) {
+                            return `<video controls><source src="/uploads/${file}" type="video/${fileExtension}"></video>`;
+                        } else {
+                            return `<img src="/uploads/${file}" alt="Post Image">`;
+                        }
+                    })
+                    .join("")}
             </div>
-            <p>${post.text}</p>
-            ${mediaContent}
         `;
-    
-        postFeed.prepend(postElement); // Adds the new post at the top
     }
+
+    postElement.innerHTML = `
+        <div class="post-header">
+            <img src="../../../no-profile.png" alt="User Profile">
+            <span class="username">${post.username}</span>
+            <span class="timestamp">• ${post.timestamp || "Just now"}</span>
+        </div>
+        <p>${post.text}</p>
+        ${mediaContent}
+        <div class="post-footer">
+            <span class="like"><i class="fa fa-heart"></i> ${post.likes || 0}</span>
+            <span class="comment"><i class="fa fa-comment"></i> ${post.comments || 0}</span>
+            <span class="retweet"><i class="fa fa-retweet"></i> ${post.retweets || 0}</span>
+        </div>
+    `;
+
+    postFeed.prepend(postElement);
+}
+
+    
     
     console.log("✅ post-create.js loaded!");
 });

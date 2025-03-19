@@ -172,3 +172,24 @@
     border-radius: 5px;
     object-fit: cover;
 }
+
+.post-media {
+    display: flex;
+    justify-content: center; /* Centers media */
+    align-items: center;
+    margin-top: 10px;
+}
+
+.post-media img,
+.post-media video {
+    width: 100%; /* Makes media responsive */
+    max-width: 300px; /* Limits the size */
+    height: auto; /* Ensures proper aspect ratio */
+    border-radius: 10px; /* Optional: Rounds corners */
+}
+
+.post-media video {
+    max-height: 200px; /* Ensures video is not too large */
+}
+
+

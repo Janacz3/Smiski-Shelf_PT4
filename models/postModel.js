@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const postSchema = new mongoose.Schema({
     username: String,
     text: String,
+    media: [String], // Array to store filenames of uploaded media (photos/videos)
     createdAt: { type: Date, default: Date.now }
 });
 

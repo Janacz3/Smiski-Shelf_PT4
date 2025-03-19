@@ -70,6 +70,7 @@ app.post('/upload-story', upload.array('media', 5), async (req, res) => {
 // ✅ New Route to Create a Post
 app.post('/create-post', authenticateToken, upload.array('media', 5), async (req, res) => {
     console.log("🔐 Authenticated user:", req.user);
+    
     if (!req.user) {
         return res.status(403).json({ error: "Unauthorized" });
     }
