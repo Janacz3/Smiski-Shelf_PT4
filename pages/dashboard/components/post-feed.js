@@ -37,6 +37,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             const postElement = document.createElement("div");
             postElement.classList.add("post");
     
+            // Format timestamp
+            const formattedTimestamp = formatTimestamp(post.createdAt);
+    
             let mediaContent = "";
             if (post.media && post.media.length > 0) {
                 mediaContent = `
@@ -61,7 +64,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 <div class="post-header">
                     <img src="../../../no-profile.png" alt="User Profile">
                     <span class="username">${post.username}</span>
-                    <span class="timestamp">• ${post.timestamp || "Just now"}</span>
+                    <span class="timestamp">• ${formatTimestamp(post.createdAt)}</span>
                 </div>
                 <p>${post.text}</p>
                 ${mediaContent}
@@ -74,7 +77,42 @@ document.addEventListener("DOMContentLoaded", async () => {
     
             postFeed.appendChild(postElement);
         });
-    }    
+    }
+    
+    /**
+     * Formats timestamp to "X minutes ago" or "MM/DD/YYYY"
+     */
+    function formatTimestamp(createdAt) {
+        if (!createdAt) return "Just now"; // Fallback for missing timestamps
+    
+        const postDate = new Date(createdAt); // Parse timestamp
+        const now = new Date();
+    
+        // Ensure valid date
+        if (isNaN(postDate.getTime())) {
+            console.error("Invalid timestamp:", createdAt);
+            return "Just now";
+        }
+    
+        const timeDiff = Math.floor((now - postDate) / 1000); // Difference in seconds
+    
+        if (timeDiff < 60) {
+            return `${timeDiff} seconds ago`;
+        } else if (timeDiff < 3600) {
+            return `${Math.floor(timeDiff / 60)} minutes ago`;
+        } else if (timeDiff < 86400) {
+            return `${Math.floor(timeDiff / 3600)} hours ago`;
+        } else {
+            // Convert UTC timestamp to local time for better readability
+            return postDate.toLocaleDateString("en-US", { 
+                year: "numeric", 
+                month: "short", 
+                day: "numeric" 
+            });
+        }
+    }
+    
+    
 
     retrievePosts();
 });

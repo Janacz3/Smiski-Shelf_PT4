@@ -189,7 +189,7 @@ function displayPost(post) {
         <div class="post-header">
             <img src="../../../no-profile.png" alt="User Profile">
             <span class="username">${post.username}</span>
-            <span class="timestamp">• ${post.timestamp || "Just now"}</span>
+            
         </div>
         <p>${post.text}</p>
         ${mediaContent}
