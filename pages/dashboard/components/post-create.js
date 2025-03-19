@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <img src="../../../no-profile.png" alt="User Profile">
                 <span class="username">${storedUsername}</span>
             </div>
-            <input type="text" class="post-input-field" placeholder="What's on your mind?">
+            <input type="text" class="post-input" placeholder="What's on your mind?">
 
             <!-- Post Options -->
             <div class="post-options">
