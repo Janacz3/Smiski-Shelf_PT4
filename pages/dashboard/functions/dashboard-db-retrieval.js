@@ -22,19 +22,28 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = "/login.html";
         } else {
             console.log("Dashboard Loaded:", data);
+
+            // Store username in localStorage
+            if (data.username) {
+                localStorage.setItem("username", data.username);
+                updateUsernameUI(data.username); // Ensure UI updates with correct username
+            }
         }
     })
     .catch(error => console.error("Error:", error));
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const greetingSpan = document.querySelector(".greeting"); // For the greeting
-    const dropdownUsername = document.getElementById("user-name"); // For dropdown
-    const username = localStorage.getItem("username"); // Get username from storage
+// Function to update the username in the navbar
+function updateUsernameUI(username) {
+    document.querySelectorAll(".username").forEach(el => el.textContent = username);
+    document.querySelectorAll(".greeting").forEach(el => el.textContent = `Welcome, ${username}!`);
+    document.querySelectorAll("#user-name").forEach(el => el.textContent = `👤 ${username}`);
+}
 
-    if (username) {
-        dropdownUsername.textContent = `👤 ${username}`; // ✅ Update dropdown text
-    } else {
-        dropdownUsername.textContent = "👤 User";
+// Ensure username is updated from localStorage on page load
+window.addEventListener("load", () => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+        updateUsernameUI(storedUsername);
     }
 });
