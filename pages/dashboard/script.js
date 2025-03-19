@@ -1,3 +1,4 @@
+/*
 // Get the button, modal, and overlay elements
 const createStoryButton = document.getElementById('createStoryButton');
 const createStoryModal = document.getElementById('createStoryModal');
@@ -1482,7 +1483,7 @@ function saveStory() {
 */
 
 
-
+/*
 document.addEventListener('DOMContentLoaded', function() {
     const title = document.getElementById('storyTitle').value.trim();
     console.log('Title:', title);  // Check the value when the DOM is ready
@@ -1708,3 +1709,4 @@ function sendMessage() {
         document.getElementById('chatInput').value = '';
     }
 }
+    */
