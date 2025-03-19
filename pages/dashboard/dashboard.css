@@ -1,3 +1,15 @@
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5efd4;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 .post-create-container {
     display: flex;
     flex-direction: column;
@@ -13,16 +25,21 @@
     margin-top: 20px;
 }
 
-/* General Styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f5efd4;
+.smiskistories-section {
+    display: flex;
+    justify-content: center; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    margin-top: 20px;
+    width: 100%;
 }
 
-html {
-    scroll-behavior: smooth;
+.stories-container {
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    width: 53%;
 }
 
 /* Header */
@@ -116,53 +133,6 @@ html {
     border: 2px solid white;
 }
 
-/* Banner Styling */
-.banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 50px;
-  background: #729c2f url('smiskibanner-2.svg') no-repeat center center; /* Use the SVG file as a background image */
-  height: 360px;
-  gap: 20px;
-  flex-wrap: wrap;
-  color: #feeb29;
-  margin-top: 50px;
-}
-
-/* Container for images */
-.banner-pics {
-    display: flex;
-    justify-content: flex-start; /* Align images to the right // Optional: space between images */
-    flex-wrap: nowrap; /* Allow images to wrap on smaller screens */
-    overflow: hidden; /* Ensure images stay within the container */
-    max-width: 100%; /* Ensure the container doesn't exceed the width of the banner */
-}
-
-/* Individual images */
-.banner-pics .image {
-    height: auto;
-    width: 250px; /* Set a fixed width or adjust as needed */
-    object-fit: contain; /* Maintain aspect ratio */
-}
-
-/* Make sure the banner is responsive */
-@media (max-width: 768px) {
-    .banner {
-        flex-direction: column; /* Stack the content for smaller screens */
-        text-align: center;
-    }
-
-    .banner-pics {
-        justify-content: center; /* Center images for smaller screens */
-        margin-top: 20px;
-    }
-
-    .banner-pics .image {
-        width: 100px; /* Reduce image size on smaller screens */
-    }
-}
-
 .text {
     flex: 1; /* Ensure it takes up available space on the left */
     display: flex;
@@ -246,17 +216,7 @@ button img {
 }
 
 
-/* story */
-.stories-container {
-    padding: 20px;
-    background-color: #fff;
-    margin: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    display: flex;
-    flex-wrap: wrap; /* Allows stories to wrap to the next row */
-    gap: 15px; /* Spacing between stories */
-}
+
 
 /* Smiski Stories heading container */
 .stories-header {
