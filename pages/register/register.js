@@ -6,12 +6,20 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", async function (event) {
         event.preventDefault();
 
-        const username = document.getElementById("username").value; // ✅ Added username
-        const email = document.getElementById("email").value;
+        const username = document.getElementById("username").value.trim();
+        const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
 
-        if (!username || !email || !password) {
+        if (!username || !email || !password || !confirmPassword) {
             message.textContent = "All fields are required!";
+            message.style.color = "red";
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            message.textContent = "Passwords do not match!";
+            message.style.color = "red";
             return;
         }
 
@@ -19,25 +27,26 @@ document.addEventListener("DOMContentLoaded", function () {
             const response = await fetch("http://localhost:3000/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, email, password }) // ✅ Include username
+                body: JSON.stringify({ username, email, password })
             });
 
             const data = await response.json();
             message.textContent = data.message;
+            message.style.color = response.ok ? "green" : "red";
 
             if (response.ok) {
                 setTimeout(() => {
-                    window.location.href = "../login/login.html"; // ✅ Redirect after successful registration
+                    window.location.href = "../login/login.html";
                 }, 2000);
             }
 
         } catch (error) {
             message.textContent = "Error registering!";
+            message.style.color = "red";
             console.error("Error:", error);
         }
     });
 
-    // ✅ Handle Redirect to Login When Clicked
     goToLoginBtn.addEventListener("click", function () {
         window.location.href = "../login/login.html";
     });
