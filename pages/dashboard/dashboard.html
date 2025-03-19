@@ -20,6 +20,8 @@
         <script src="./components/post-create.js" defer></script>
     </div>
 
+    <script src="./components/post-feed.js" defer></script>
+
     <!-- Smiski Stories Section -->
     <div class="smiskistories-section">
     <div class="stories-container" id="storiesContainer">
@@ -43,28 +45,7 @@
             <div id="userPosts"></div>
         </div>
     
-        <!-- Sidebar for People You Know & Chat -->
-        <div class="sidebar-section">
-            <div class="suggested-users-section">
-                <h3 id="chat-section">Chat Your Friends</h3>
-                <ul id="suggestedUsers">
-                    <li>
-                        <img src="user1.png" alt="User 1" class="user-avatar">
-                        <span>Jane Doe</span>
-                        <button class="chat-button" onclick="startChat('Jane Doe')">Chat</button>
-                    </li>
-                    <li>
-                        <img src="user2.png" alt="User 2" class="user-avatar">
-                        <span>John Smith</span>
-                        <button class="chat-button" onclick="startChat('John Smith')">Chat</button>
-                    </li>
-                    <li>
-                        <img src="user3.png" alt="User 3" class="user-avatar">
-                        <span>Alice Brown</span>
-                        <button class="chat-button" onclick="startChat('Alice Brown')">Chat</button>
-                    </li>
-                </ul>
-            </div>
+
     
             <!-- Chat Panel (Initially Hidden) -->
             <div id="chatPanel" class="chat-panel" style="display: none;">

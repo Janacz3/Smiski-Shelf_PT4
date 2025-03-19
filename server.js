@@ -10,6 +10,7 @@ require('dotenv').config();
 // Import Models & Auth
 const User = require('./models/userModel');
 const Story = require('./models/storyModel');
+const Post = require('./models/postModel'); // ✅ Import Post Model
 const { registerUser, loginUser } = require('./auth/auth');
 const authenticateToken = require('./middleware/authMiddleware');
 
@@ -66,6 +67,46 @@ app.post('/upload-story', upload.array('media', 5), async (req, res) => {
     }
 });
 
+// ✅ New Route to Create a Post
+app.post('/create-post', authenticateToken, upload.array('media', 5), async (req, res) => {
+    console.log("🔐 Authenticated user:", req.user);
+    if (!req.user) {
+        return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const { text } = req.body;
+    const username = req.user.username;
+    const mediaFilenames = req.files ? req.files.map(file => file.filename) : [];
+
+    if (!text && mediaFilenames.length === 0) {
+        return res.status(400).json({ error: "Post must contain text or media." });
+    }
+
+    try {
+        const newPost = new Post({ username, text, media: mediaFilenames });
+        await newPost.save();
+
+        console.log("✅ Post created successfully:", newPost);
+        res.status(201).json({ message: "Post created successfully", post: newPost });
+    } catch (error) {
+        console.error("🚨 Error saving post:", error);
+        res.status(500).json({ error: "Failed to create post" });
+    }
+});
+
+
+
+// ✅ New Route to Get All Posts
+app.get('/posts', async (req, res) => {
+    try {
+        const posts = await Post.find().sort({ createdAt: -1 }); // Fetch posts sorted by latest
+        res.json(posts);
+    } catch (error) {
+        console.error("🚨 Error fetching posts:", error);
+        res.status(500).json({ error: "Failed to fetch posts" });
+    }
+});
+
 app.use("/pages", express.static(path.join(__dirname, "pages"), {
     setHeaders: (res, path) => {
         if (path.endsWith(".css")) {
@@ -73,7 +114,6 @@ app.use("/pages", express.static(path.join(__dirname, "pages"), {
         }
     }
 }));
-
 
 // Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -88,17 +128,14 @@ app.post('/logout', authenticateToken, (req, res) => {
     res.json({ message: "You have been logged out successfully!" });
 });
 
-
-
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'pages', 'register', 'register.html'));
 });
 
 // Serve login.html
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'pages', 'login','login.html'));
+    res.sendFile(path.join(__dirname, 'pages', 'login', 'login.html'));
 });
-
 
 // Protected Dashboard Route
 app.get('/dashboard', authenticateToken, (req, res) => {
