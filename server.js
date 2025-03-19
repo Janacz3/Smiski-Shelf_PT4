@@ -94,8 +94,6 @@ app.post('/create-post', authenticateToken, upload.array('media', 5), async (req
     }
 });
 
-
-
 // ✅ New Route to Get All Posts
 app.get('/posts', async (req, res) => {
     try {

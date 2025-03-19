@@ -30,28 +30,28 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
         </div>
 
-        <!-- Modal -->
-        <div id="postModal" class="modal">
-            <div class="modal-content">
-                <span class="close-modal">&times;</span>
+        <!-- Post Modal -->
+        <div id="postModal" class="post-modal">
+            <div class="post-modal-content">
+                <span class="close-post-modal">&times;</span>
                 <h2>Create post</h2>
                 <div class="user-profile">
                     <img src="../../../no-profile.png" alt="User Profile">
                     <span class="username">${storedUsername}</span>
                 </div>
-                <textarea id="postContent" placeholder="What's on your mind, ${storedUsername}?" class="modal-textarea"></textarea>
+                <textarea id="postContent" placeholder="What's on your mind, ${storedUsername}?" class="post-modal-textarea"></textarea>
 
                 <!-- File Upload -->
                 <input type="file" id="fileInput" multiple>
 
                 <!-- Post Options -->
-                <div class="post-options">
-                    <div class="post-option"><img src="../../../live.png" alt="Live video"> Live video</div>
-                    <div class="post-option"><img src="../../../photos.png" alt="Photo/video"> Photo/video</div>
-                    <div class="post-option"><img src="../../../feeling.png" alt="Feeling/activity"> Feeling/activity</div>
+                <div class="post-modal-options">
+                    <div class="post-modal-option"><img src="../../../live.png" alt="Live video"> Live video</div>
+                    <div class="post-modal-option"><img src="../../../photos.png" alt="Photo/video"> Photo/video</div>
+                    <div class="post-modal-option"><img src="../../../feeling.png" alt="Feeling/activity"> Feeling/activity</div>
                 </div>
                 
-                <button id="postButton" class="post-button">Post</button>
+                <button id="postButton" class="post-modal-button">Post</button>
             </div>
         </div>
     </div>`;
@@ -66,18 +66,21 @@ document.addEventListener("DOMContentLoaded", function () {
     // Modal functionality
     const smallPostInput = document.getElementById("smallPostInput");
     const postModal = document.getElementById("postModal");
-    const closeModal = document.querySelector(".close-modal");
+    const closeModal = document.querySelector(".close-post-modal");
     const postButton = document.getElementById("postButton");
 
     if (smallPostInput && postModal && closeModal) {
+        // Open modal on click
         smallPostInput.addEventListener("click", function () {
             postModal.style.display = "flex";
         });
 
+        // Close modal on click
         closeModal.addEventListener("click", function () {
             postModal.style.display = "none";
         });
 
+        // Close modal if clicked outside of content
         window.addEventListener("click", function (event) {
             if (event.target === postModal) {
                 postModal.style.display = "none";
@@ -133,22 +136,33 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
+    document.querySelector("#postForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
     
-
-    // Function to display the post dynamically
+        const formData = new FormData(event.target);
+        const response = await fetch("http://localhost:3000/create-post", {
+            method: "POST",
+            body: formData
+        });
+    
+        if (response.ok) {
+            const newPost = await response.json();
+            displayPost(newPost.post); // Display the new post dynamically
+        }
+    });
+    
     function displayPost(post) {
         const postFeed = document.querySelector("#postFeed");
-        if (!postFeed) {
-            console.error("Container #postFeed not found!");
-            return;
-        }
+        if (!postFeed) return;
     
         const postElement = document.createElement("div");
         postElement.classList.add("post");
     
         let mediaContent = "";
-        if (post.media && post.media.length > 0) { // ✅ Check if post.media exists
-            mediaContent = `<div class="post-media">${post.media.map(file => `<img src="/uploads/${file}" alt="Post Image">`).join("")}</div>`;
+        if (post.media && post.media.length > 0) {
+            mediaContent = `<div class="post-media">
+                ${post.media.map(file => `<img src="/uploads/${file}" alt="Post Image">`).join("")}
+            </div>`;
         }
     
         postElement.innerHTML = `
@@ -156,13 +170,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 <img src="../../../no-profile.png" alt="User Profile">
                 <span class="username">${post.username}</span>
             </div>
-            <p>${post.content}</p>
+            <p>${post.text}</p>
             ${mediaContent}
         `;
     
-        postFeed.prepend(postElement);
+        postFeed.prepend(postElement); // Adds the new post at the top
     }
     
-
     console.log("✅ post-create.js loaded!");
 });
