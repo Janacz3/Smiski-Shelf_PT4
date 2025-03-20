@@ -28,3 +28,21 @@ button {
 button:hover {
     background: #218838;
 }
+
+#verification-section {
+    margin: 15px 0;
+}
+
+#verification-code {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.verification-message {
+    color: #666;
+    font-size: 14px;
+    margin: 5px 0;
+}

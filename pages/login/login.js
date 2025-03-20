@@ -1,8 +1,9 @@
 document.getElementById("login-form").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Prevent form refresh
+    event.preventDefault();
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const verificationCode = document.getElementById("verification-code")?.value;
 
     try {
         const response = await fetch("http://localhost:3000/login", {
@@ -10,18 +11,23 @@ document.getElementById("login-form").addEventListener("submit", async function 
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, verificationCode }),
         });
 
         const data = await response.json();
 
         if (response.ok) {
-            localStorage.setItem("token", data.token); // ✅ Store token
-            localStorage.setItem("username", data.username); // ✅ Store username
-            alert(data.message);
-            window.location.href = "/dashboard/dashboard.html"; // Redirect to dashboard
+            if (data.requireVerification) {
+                // Show verification code section
+                document.getElementById("verification-section").style.display = "block";
+                document.getElementById("verification-code").focus();
+            } else {
+                localStorage.setItem("token", data.token);
+                localStorage.setItem("username", data.username);
+                window.location.href = "/dashboard/dashboard.html";
+            }
         } else {
-            alert(data.message); // Show error message
+            alert(data.message);
         }
     } catch (error) {
         console.error("Login Error:", error);

@@ -5,7 +5,11 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     resetToken: { type: String, default: null }, // Store reset token
-    resetTokenExpiry: { type: Date, default: null } // Token expiration time
+    resetTokenExpiry: { type: Date, default: null }, // Token expiration time
+    twoFactorSecret: String,
+    twoFactorEnabled: { type: Boolean, default: true },
+    temporaryToken: String,
+    tokenExpiry: Date
 });
 
 module.exports = mongoose.model("User", userSchema);
