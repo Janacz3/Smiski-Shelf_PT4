@@ -1,3 +1,5 @@
+import { initializeMediaPreview } from './media-preview.js';
+
 // Create a link element for the CSS file
 const storyModalCSS = document.createElement('link');
 storyModalCSS.rel = 'stylesheet';
@@ -8,7 +10,7 @@ const storyModalHTML = `
     <!-- Create Story Modal -->
     <div id="createStoryModal" class="create-story-modal">
         <div id="modal-content" class="modal-content">
-            <button class="close-modal-button" onclick="closeModalButton()">✖</button>
+            <button class="close-modal-button" id="closeModalButton">✖</button>
             <h2>Create Your Smiski Story</h2>
             <div class="input-section">
                 <input type="text" id="storyTitle" placeholder="Enter story title">
@@ -80,7 +82,7 @@ const storyModalHTML = `
     </div>
 `;
 
-function openStoryModal() {
+export function openStoryModal() {
     const modal = document.getElementById('createStoryModal');
     const overlay = document.getElementById('overlay');
 
@@ -92,7 +94,7 @@ function openStoryModal() {
     }
 }
 
-function closeModalButton() {
+export function closeModalButton() {
     const modal = document.getElementById('createStoryModal');
     const overlay = document.getElementById('overlay');
 
@@ -103,5 +105,31 @@ function closeModalButton() {
         console.error('Modal or overlay element not found.');
     }
 }
+
+function updateCharCount() {
+    const textArea = document.getElementById("storyDescription");
+    const charCount = document.getElementById("charCount");
+
+    if (textArea && charCount) {
+        const remaining = 100 - textArea.value.length;
+        charCount.textContent = `${remaining} characters remaining`;
+    } else {
+        console.error('Text area or character count element not found.');
+    }
+}
+
+// Attach the event listener to the `storyDescription` input field
+document.addEventListener('DOMContentLoaded', () => {
+    const textArea = document.getElementById("storyDescription");
+    if (textArea) {
+        textArea.addEventListener('input', updateCharCount);
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeMediaPreview('mediaInput', 'previewContainer', 'imagePreview', 'videoPreview', 'videoSource');
+});
+
+
 
 document.body.insertAdjacentHTML('beforeend', storyModalHTML);
