@@ -1,4 +1,4 @@
-import { openStoryModal, closeModalButton } from '/dashboard/functions/create-stories/story-modal.js';
+import { openStoryModal, closeModalButton } from '/pages/dashboard/functions/create-stories/story-modal.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const createStoryButton = document.getElementById('createStoryButton');

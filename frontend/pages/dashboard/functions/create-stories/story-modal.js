@@ -3,7 +3,7 @@ import { initializeMediaPreview } from './media-preview.js';
 // Create a link element for the CSS file
 const storyModalCSS = document.createElement('link');
 storyModalCSS.rel = 'stylesheet';
-storyModalCSS.href = '/dashboard/functions/create-stories/story-modal.css'; // Ensure the correct path to your CSS file
+storyModalCSS.href = '/pages/dashboard/functions/create-stories/story-modal.css'; // Ensure the correct path to your CSS file
 document.head.appendChild(storyModalCSS);
 
 const storyModalHTML = `
