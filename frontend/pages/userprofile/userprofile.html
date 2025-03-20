@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/pages/dashboard/components/styles/navbar.css">
+    <link rel="stylesheet" href="/pages/userprofile/styles/userprofile.css"> <!-- Add your custom CSS file -->
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Navbar content will be dynamically added by navbar.js -->
+    </nav>
+    <div class="settings-container">
+        <div class="sidebar">
+            <div class="profile-info">
+                <img src="/user-profile.png" alt="Profile Picture" class="profile-pic">
+                <h2>Name</h2>
+                <p>Email</p>
+            </div>
+            <ul class="settings-menu">
+                <li><i class="fas fa-user"></i> My Profile</li>
+                <li><i class="fas fa-cog"></i> Privacy</li>
+                <li><i class="fas fa-bell"></i> Notifications</li>
+                <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+            </ul>
+        </div>
+        <div class="profile-details">
+            <div class="cover-photo">
+                <img src="/cover-photo.png" alt="Cover Photo">
+                <button class="edit-cover-photo">Edit Cover Photo</button>
+            </div>
+            <div class="profile-info">
+                <h2>Name</h2>
+                <p>Username</p>
+                <p>Email account</p>
+                <p>Bio</p>
+            </div>
+        </div>
+    </div>
+    <script src="/pages/dashboard/components/navbar.js"></script>
+</body>
+</html>

@@ -49,6 +49,11 @@ document.addEventListener("DOMContentLoaded", function () {
         userName.textContent = "👤 User";
     }
 
+    // Add click event to navigate to the user profile page
+    userName.addEventListener("click", () => {
+        window.location.href = "/pages/userprofile/userprofile.html"; // Navigate to the user profile page
+    });
+
     // Toggle Dropdown
     profilePic.addEventListener("click", () => {
         dropdownMenu.classList.toggle("open");
