@@ -17,7 +17,7 @@ module.exports = (app) => {
 
     // ✅ Serve register page
     app.get('/', (req, res) => {
-        res.sendFile(path.join(__dirname, '../pages', 'register', 'register.html'));
+        res.sendFile(path.join(__dirname, '../../frontend', 'pages', 'register', 'register.html'));
     });
 
     // ✅ Serve login page
