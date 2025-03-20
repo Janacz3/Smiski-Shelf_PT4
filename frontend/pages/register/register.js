@@ -36,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 setTimeout(() => {
-                    window.location.href = "../login/login.html";
+                    // Updated path to match server configuration
+                    window.location.href = "/pages/login/login.html";
                 }, 2000);
             }
 
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     goToLoginBtn.addEventListener("click", function () {
-        window.location.href = "../login/login.html";
+        // Updated path to match server configuration
+        window.location.href = "/pages/login/login.html";
     });
 });
